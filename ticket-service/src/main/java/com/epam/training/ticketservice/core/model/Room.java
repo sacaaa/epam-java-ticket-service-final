@@ -27,7 +27,7 @@ public class Room {
     @Column(name = "name", unique = true, nullable = false)
     private String name;
 
-    @Column(name = "rows", nullable = false)
+    @Column(name = "row_count", nullable = false)
     private int rows;
 
     @Column(name = "columns", nullable = false)
