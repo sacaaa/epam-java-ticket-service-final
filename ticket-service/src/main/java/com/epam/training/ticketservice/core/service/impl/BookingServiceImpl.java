@@ -14,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,7 +24,9 @@ import java.util.stream.Collectors;
 public class BookingServiceImpl implements BookingService {
 
     private final BookingRepository bookingRepository;
+
     private final ScreeningRepository screeningRepository;
+    
     private final ObjectMapper objectMapper;
 
     @Lazy
@@ -74,7 +75,6 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    @Transactional
     public Result<List<BookingDto>> getBookingsByUser(String username) {
         Result<UserDto> userResult = userService.getAuthenticatedUser(username);
         if (!userResult.isSuccess()) {
