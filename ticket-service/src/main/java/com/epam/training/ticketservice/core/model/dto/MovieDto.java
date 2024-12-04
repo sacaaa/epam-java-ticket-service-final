@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,10 +19,13 @@ public class MovieDto {
 
     private int length;
 
-    public MovieDto(String title, String genre, int length) {
+    private Set<PricingDto> pricingComponents;
+
+    public MovieDto(String title, String genre, int length, Set<PricingDto> pricingComponents) {
         this.title = title;
         this.genre = genre;
         this.length = length;
+        this.pricingComponents = pricingComponents;
     }
 
 }
