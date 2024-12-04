@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,11 +21,14 @@ public class RoomDto {
 
     private int seats;
 
-    public RoomDto(String name, int rows, int columns) {
+    private Set<PricingDto> pricingComponents;
+
+    public RoomDto(String name, int rows, int columns, int seats, Set<PricingDto> pricingComponents) {
         this.name = name;
         this.rows = rows;
         this.columns = columns;
-        this.seats = rows * columns;
+        this.seats = seats;
+        this.pricingComponents = pricingComponents;
     }
 
 }
