@@ -3,8 +3,6 @@ package com.epam.training.ticketservice.core.model;
 import lombok.Data;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -23,8 +21,6 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = {"pricingComponents"})
-@ToString(exclude = {"pricingComponents"})
 public class Movie {
 
     @Id
