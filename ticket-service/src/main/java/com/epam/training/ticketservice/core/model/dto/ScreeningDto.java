@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -19,9 +20,13 @@ public class ScreeningDto {
 
     private LocalDateTime startTime;
 
-    public ScreeningDto(MovieDto movie, RoomDto room, LocalDateTime startTime) {
+    private Set<PricingDto> pricingComponents;
+
+    public ScreeningDto(MovieDto movie, RoomDto room, LocalDateTime startTime, Set<PricingDto> pricingComponents) {
         this.movie = movie;
         this.room = room;
         this.startTime = startTime;
+        this.pricingComponents = pricingComponents;
     }
+
 }
