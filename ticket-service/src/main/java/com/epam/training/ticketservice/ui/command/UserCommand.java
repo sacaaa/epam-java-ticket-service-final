@@ -1,5 +1,6 @@
 package com.epam.training.ticketservice.ui.command;
 
+import com.epam.training.ticketservice.core.model.enums.Role;
 import com.epam.training.ticketservice.core.service.impl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
@@ -35,4 +36,12 @@ public class UserCommand {
     public String describe() {
         return userService.describe();
     }
+
+    @ShellMethod(key = "sign up", value = "Create a new user account")
+    public String signUp(String username, String password) {
+        return userService.signUp(username, password, Role.USER).isSuccess()
+                ? String.format("User account '%s' created successfully.", username)
+                : "Error: Could not create user account. The username might already exist.";
+    }
+
 }
