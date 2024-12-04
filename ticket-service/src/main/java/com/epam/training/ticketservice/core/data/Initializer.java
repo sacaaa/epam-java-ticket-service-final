@@ -18,7 +18,7 @@ public class Initializer {
     @PostConstruct
     public void init() {
         if (!userRepository.existsByUsername("admin")) {
-            User admin = new User("admin", "password", Role.ADMIN);
+            User admin = new User("admin", "admin", Role.ADMIN);
             userRepository.save(admin);
         }
     }
