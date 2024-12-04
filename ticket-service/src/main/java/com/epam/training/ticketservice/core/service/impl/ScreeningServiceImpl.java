@@ -30,11 +30,11 @@ public class ScreeningServiceImpl implements ScreeningService {
 
     private final ObjectMapper objectMapper;
 
-    private final AuthServiceImpl authService;
+    private final UserServiceImpl userService;
 
     @Override
     public Result<ScreeningDto> createScreening(String movieTitle, String roomName, LocalDateTime startTime) {
-        Result<Void> adminCheck = authService.checkAdminPrivileges();
+        Result<Void> adminCheck = userService.checkAdminPrivileges();
         if (!adminCheck.isSuccess()) {
             return Result.failure(adminCheck.getMessage());
         }
@@ -104,7 +104,7 @@ public class ScreeningServiceImpl implements ScreeningService {
 
     @Override
     public Result<ScreeningDto> deleteScreening(String movieTitle, String roomName, LocalDateTime startTime) {
-        Result<Void> adminCheck = authService.checkAdminPrivileges();
+        Result<Void> adminCheck = userService.checkAdminPrivileges();
         if (!adminCheck.isSuccess()) {
             return Result.failure(adminCheck.getMessage());
         }

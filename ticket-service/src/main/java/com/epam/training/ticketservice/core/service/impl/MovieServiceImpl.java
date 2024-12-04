@@ -19,11 +19,11 @@ public class MovieServiceImpl implements MovieService {
 
     private final ObjectMapper objectMapper;
 
-    private final AuthServiceImpl authService;
+    private final UserServiceImpl userService;
 
     @Override
     public Result<MovieDto> createMovie(String title, String genre, int length) {
-        Result<Void> adminCheck = authService.checkAdminPrivileges();
+        Result<Void> adminCheck = userService.checkAdminPrivileges();
         if (!adminCheck.isSuccess()) {
             return Result.failure(adminCheck.getMessage());
         }
@@ -49,7 +49,7 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public Result<MovieDto> updateMovie(String title, String genre, int length) {
-        Result<Void> adminCheck = authService.checkAdminPrivileges();
+        Result<Void> adminCheck = userService.checkAdminPrivileges();
         if (!adminCheck.isSuccess()) {
             return Result.failure(adminCheck.getMessage());
         }
@@ -66,7 +66,7 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public Result<MovieDto> deleteMovie(String title) {
-        Result<Void> adminCheck = authService.checkAdminPrivileges();
+        Result<Void> adminCheck = userService.checkAdminPrivileges();
         if (!adminCheck.isSuccess()) {
             return Result.failure(adminCheck.getMessage());
         }

@@ -19,11 +19,11 @@ public class RoomServiceImpl implements RoomService {
 
     private final ObjectMapper objectMapper;
 
-    private final AuthServiceImpl authService;
+    private final UserServiceImpl userService;
 
     @Override
     public Result<RoomDto> createRoom(String name, int rows, int columns) {
-        Result<Void> adminCheck = authService.checkAdminPrivileges();
+        Result<Void> adminCheck = userService.checkAdminPrivileges();
         if (!adminCheck.isSuccess()) {
             return Result.failure(adminCheck.getMessage());
         }
@@ -49,7 +49,7 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public Result<RoomDto> updateRoom(String name, int rows, int columns) {
-        Result<Void> adminCheck = authService.checkAdminPrivileges();
+        Result<Void> adminCheck = userService.checkAdminPrivileges();
         if (!adminCheck.isSuccess()) {
             return Result.failure(adminCheck.getMessage());
         }
@@ -66,7 +66,7 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public Result<RoomDto> deleteRoom(String name) {
-        Result<Void> adminCheck = authService.checkAdminPrivileges();
+        Result<Void> adminCheck = userService.checkAdminPrivileges();
         if (!adminCheck.isSuccess()) {
             return Result.failure(adminCheck.getMessage());
         }
