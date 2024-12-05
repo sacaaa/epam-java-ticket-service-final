@@ -3,7 +3,6 @@ package com.epam.training.ticketservice.ui.command;
 import com.epam.training.ticketservice.core.service.impl.BookingServiceImpl;
 import com.epam.training.ticketservice.core.service.impl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 

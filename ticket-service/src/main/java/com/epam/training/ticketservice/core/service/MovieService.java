@@ -4,7 +4,6 @@ import com.epam.training.ticketservice.core.data.Result;
 import com.epam.training.ticketservice.core.model.dto.MovieDto;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface MovieService {
 
