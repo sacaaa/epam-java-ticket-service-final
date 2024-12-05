@@ -22,8 +22,6 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = {"movies", "rooms", "screenings"})
-@ToString(exclude = {"movies", "rooms", "screenings"})
 public class Pricing {
 
     @Id
