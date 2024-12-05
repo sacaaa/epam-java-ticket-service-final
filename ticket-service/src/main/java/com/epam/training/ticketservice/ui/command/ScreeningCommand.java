@@ -30,18 +30,18 @@ public class ScreeningCommand {
     @ShellMethod(key = "list screenings", value = "List all screenings")
     public String listScreenings() {
         var result = screeningService.getScreenings();
+
         return result.isSuccess()
-                ? screeningService.getScreenings().getData().stream()
-                    .map(screening -> String.format("%s (%s, %d minutes), screened in room %s, at %s",
-                            screening.getMovie().getTitle(),
-                            screening.getMovie().getGenre(),
-                            screening.getMovie().getLength(),
-                            screening.getRoom().getName(),
-                            screening.getStartTime().format(dateTimeFormatter)))
-                    .collect(Collectors.joining("\n"))
+                ? result.getData().stream()
+                .map(screening -> String.format("%s (%s, %d minutes), screened in room %s, at %s",
+                        screening.getMovie().getTitle(),
+                        screening.getMovie().getGenre(),
+                        screening.getMovie().getLength(),
+                        screening.getRoom().getName(),
+                        screening.getStartTime().format(dateTimeFormatter)))
+                .collect(Collectors.joining("\n"))
                 : result.getMessage();
     }
-
 
     @ShellMethod(key = "delete screening", value = "Delete an existing screening")
     public String deleteScreening(String movieTitle, String roomName, String startTime) {

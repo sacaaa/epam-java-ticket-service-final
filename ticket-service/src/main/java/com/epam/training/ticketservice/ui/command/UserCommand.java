@@ -14,16 +14,18 @@ public class UserCommand {
 
     @ShellMethod(key = "sign in", value = "Sign in with your username and password")
     public String signIn(String username, String password) {
-        return userService.signIn(username, password)
-                .map(user -> user.getUsername() + " successfully signed in")
-                .orElse("Login failed due to incorrect credentials");
+        var result = userService.signIn(username, password);
+        return result.isSuccess()
+                ? result.getData().getUsername() + " successfully signed in"
+                : result.getMessage();
     }
 
     @ShellMethod(key = "sign in privileged", value = "Sign in with your privileged username and password")
     public String signInPrivileged(String username, String password) {
-        return userService.signIn(username, password, true)
-                .map(user -> user.getUsername() + " successfully signed in")
-                .orElse("Login failed due to incorrect credentials");
+        var result = userService.signIn(username, password, true);
+        return result.isSuccess()
+                ? result.getData().getUsername() + " successfully signed in"
+                : result.getMessage();
     }
 
     @ShellMethod(key = "sign out", value = "Sign out from the application")
@@ -39,9 +41,10 @@ public class UserCommand {
 
     @ShellMethod(key = "sign up", value = "Create a new user account")
     public String signUp(String username, String password) {
-        return userService.signUp(username, password, Role.USER).isSuccess()
+        var result = userService.signUp(username, password, Role.USER);
+        return result.isSuccess()
                 ? String.format("User account '%s' created successfully.", username)
-                : "Error: Could not create user account. The username might already exist.";
+                : result.getMessage();
     }
 
 }
