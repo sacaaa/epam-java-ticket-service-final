@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService {
 
             return Result.success(userDto);
         } else {
-            return Result.failure("Error: Incorrect username or password.");
+            return Result.failure("Login failed due to incorrect credentials");
         }
     }
 
