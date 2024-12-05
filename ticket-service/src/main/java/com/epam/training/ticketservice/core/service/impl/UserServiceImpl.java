@@ -6,11 +6,11 @@ import com.epam.training.ticketservice.core.model.dto.BookingDto;
 import com.epam.training.ticketservice.core.model.dto.UserDto;
 import com.epam.training.ticketservice.core.model.enums.Role;
 import com.epam.training.ticketservice.core.repository.UserRepository;
-import com.epam.training.ticketservice.core.service.BookingService;
 import com.epam.training.ticketservice.core.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
@@ -26,39 +26,44 @@ public class UserServiceImpl implements UserService {
 
     private final ObjectMapper objectMapper;
 
-    private final BookingServiceImpl bookingService;
+    private BookingServiceImpl bookingService;
+
+    @Autowired
+    public void setBookingService(@Lazy BookingServiceImpl bookingService) {
+        this.bookingService = bookingService;
+    }
 
     @Getter
     private UserDto loggedInUser = null;
 
-    private Optional<UserDto> signInInternal(String username, String password, boolean privileged) {
+    private Result<UserDto> signInInternal(String username, String password, boolean privileged) {
         Optional<User> userEntity = userRepository.findByUsernameAndPassword(username, password);
 
         if (userEntity.isPresent()) {
             User user = userEntity.get();
 
             if (!privileged && user.getRole().toString().equals("ADMIN")) {
-                return Optional.empty();
+                return Result.failure("Error: Admin privileges are required.");
             }
 
             UserDto userDto = objectMapper.convertValue(user, UserDto.class);
             String role = privileged ? "ADMIN" : user.getRole().toString();
             userDto.setRole(role);
-
             loggedInUser = userDto;
-            return Optional.of(userDto);
+
+            return Result.success(userDto);
         } else {
-            return Optional.empty();
+            return Result.failure("Error: Incorrect username or password.");
         }
     }
 
     @Override
-    public Optional<UserDto> signIn(String username, String password) {
+    public Result<UserDto> signIn(String username, String password) {
         return signInInternal(username, password, false);
     }
 
     @Override
-    public Optional<UserDto> signIn(String username, String password, boolean privileged) {
+    public Result<UserDto> signIn(String username, String password, boolean privileged) {
         return signInInternal(username, password, privileged);
     }
 

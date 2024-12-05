@@ -11,8 +11,6 @@ import com.epam.training.ticketservice.core.repository.ScreeningRepository;
 import com.epam.training.ticketservice.core.service.BookingService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -29,9 +27,7 @@ public class BookingServiceImpl implements BookingService {
     
     private final ObjectMapper objectMapper;
 
-    @Lazy
-    @Autowired
-    private UserServiceImpl userService;
+    private final UserServiceImpl userService;
 
     private static final int SEAT_PRICE = 1500;
 

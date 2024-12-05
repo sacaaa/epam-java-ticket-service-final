@@ -8,9 +8,9 @@ import java.util.Optional;
 
 public interface UserService {
 
-    Optional<UserDto> signIn(String username, String password);
+    Result<UserDto> signIn(String username, String password);
 
-    Optional<UserDto> signIn(String username, String password, boolean privileged);
+    Result<UserDto> signIn(String username, String password, boolean privileged);
 
     Result<UserDto> signUp(String username, String password, Role role);
 
