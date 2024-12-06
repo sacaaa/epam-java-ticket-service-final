@@ -15,9 +15,6 @@ import javax.annotation.PostConstruct;
 @RequiredArgsConstructor
 public class Initializer {
 
-    /**
-     * Repository for accessing and managing user data.
-     */
     private final UserRepository userRepository;
 
     /**
