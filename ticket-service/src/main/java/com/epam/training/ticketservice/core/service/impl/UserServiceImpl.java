@@ -28,14 +28,30 @@ public class UserServiceImpl implements UserService {
 
     private BookingServiceImpl bookingService;
 
+    /**
+     * The currently logged-in user. Null if no user is logged in.
+     */
+    @Getter
+    private UserDto loggedInUser = null;
+
+    /**
+     * Sets the booking service lazily to avoid circular dependencies.
+     *
+     * @param bookingService The {@code BookingServiceImpl} to be set.
+     */
     @Autowired
     public void setBookingService(@Lazy BookingServiceImpl bookingService) {
         this.bookingService = bookingService;
     }
 
-    @Getter
-    private UserDto loggedInUser = null;
-
+    /**
+     * Handles the internal sign-in logic, supporting privileged and non-privileged modes.
+     *
+     * @param username   The username of the user trying to sign in.
+     * @param password   The user's password.
+     * @param privileged Whether the user requires privileged (ADMIN) access.
+     * @return A {@code Result} containing the authenticated {@code UserDto} or an error message if sign-in fails.
+     */
     private Result<UserDto> signInInternal(String username, String password, boolean privileged) {
         Optional<User> userEntity = userRepository.findByUsernameAndPassword(username, password);
 
@@ -94,6 +110,12 @@ public class UserServiceImpl implements UserService {
                 : describeUserAccount(loggedInUser.getUsername());
     }
 
+    /**
+     * Describes the account of the currently logged-in user.
+     *
+     * @param username The username of the logged-in user.
+     * @return A string description of the user's account and their booking history.
+     */
     private String describeUserAccount(String username) {
         StringBuilder res = new StringBuilder("Signed in with account '").append(username).append("'");
 
@@ -108,6 +130,12 @@ public class UserServiceImpl implements UserService {
         return res.toString();
     }
 
+    /**
+     * Formats a booking into a readable string.
+     *
+     * @param booking The booking to format.
+     * @return A formatted string representing the booking details.
+     */
     private String formatBooking(BookingDto booking) {
         return String.format(
                 "\nSeats %s on %s in room %s starting at %s for %d HUF",

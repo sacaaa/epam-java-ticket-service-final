@@ -26,6 +26,9 @@ public class PricingServiceImpl implements PricingService {
 
     private final ScreeningRepository screeningRepository;
 
+    /**
+     * The base price for a ticket, which can be adjusted.
+     */
     private static int basePrice = 1500;
 
     @Override
@@ -127,6 +130,12 @@ public class PricingServiceImpl implements PricingService {
         return Result.success(totalPrice);
     }
 
+    /**
+     * Calculates the total additional pricing from a collection of pricing components.
+     *
+     * @param pricingComponents The collection of pricing components to calculate.
+     * @return The total additional price contributed by the pricing components.
+     */
     private int calculatePricingComponents(Collection<Pricing> pricingComponents) {
         return pricingComponents.stream().mapToInt(Pricing::getAmount).sum();
     }

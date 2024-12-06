@@ -29,6 +29,9 @@ public class BookingServiceImpl implements BookingService {
 
     private final UserServiceImpl userService;
 
+    /**
+     * The price per seat for a booking.
+     */
     private static final int SEAT_PRICE = 1500;
 
     @Override
@@ -47,6 +50,15 @@ public class BookingServiceImpl implements BookingService {
                 .orElseGet(() -> Result.failure("Error: Screening does not exist."));
     }
 
+    /**
+     * Processes a booking request by validating the selected seats, calculating the total price,
+     * and saving the booking.
+     *
+     * @param user      The user making the booking.
+     * @param screening The screening for which the booking is being made.
+     * @param seats     The list of seat identifiers to book.
+     * @return A {@code Result} containing the created {@code BookingDto} or an error message if the booking fails.
+     */
     private Result<BookingDto> processBooking(UserDto user, Screening screening, List<String> seats) {
         for (String seat : seats) {
             if (bookingRepository.existsByScreeningAndSeatsContaining(screening, seat)) {
@@ -59,10 +71,25 @@ public class BookingServiceImpl implements BookingService {
         return Result.success(objectMapper.convertValue(booking, BookingDto.class));
     }
 
+    /**
+     * Calculates the total price for a booking based on the number of seats.
+     *
+     * @param seatCount The number of seats in the booking.
+     * @return The total price for the booking.
+     */
     private int calculatePrice(int seatCount) {
         return seatCount * SEAT_PRICE;
     }
 
+    /**
+     * Creates and saves a booking entity.
+     *
+     * @param user      The user making the booking.
+     * @param screening The screening for which the booking is being made.
+     * @param seats     The list of seat identifiers to book.
+     * @param price     The total price for the booking.
+     * @return The saved {@code Booking} entity.
+     */
     private Booking createAndSaveBooking(UserDto user, Screening screening, List<String> seats, int price) {
         User userEntity = objectMapper.convertValue(user, User.class);
         Booking booking = new Booking(userEntity, screening, seats, price, LocalDateTime.now());

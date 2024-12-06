@@ -8,12 +8,23 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 
+/**
+ * Initializes the system with default data.
+ */
 @Component
 @RequiredArgsConstructor
 public class Initializer {
 
+    /**
+     * Repository for accessing and managing user data.
+     */
     private final UserRepository userRepository;
 
+    /**
+     * Initializes the system by checking if an admin user exists.
+     * If no admin user is found, it creates one with default credentials:
+     * username: "admin", password: "admin", role: {@code Role.ADMIN}.
+     */
     @PostConstruct
     public void init() {
         if (!userRepository.existsByUsername("admin")) {

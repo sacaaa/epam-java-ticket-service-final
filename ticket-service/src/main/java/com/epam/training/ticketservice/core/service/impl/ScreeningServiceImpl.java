@@ -60,6 +60,13 @@ public class ScreeningServiceImpl implements ScreeningService {
         return Result.success(objectMapper.convertValue(screening, ScreeningDto.class));
     }
 
+    /**
+     * Checks for scheduling conflicts for a room at a given start time.
+     *
+     * @param room      The room for the screening.
+     * @param startTime The start time of the screening.
+     * @return A {@code Result} indicating success if no conflicts exist, or an error message if conflicts are found.
+     */
     private Result<Void> checkScheduleConflicts(Room room, LocalDateTime startTime) {
         List<Screening> existingScreenings = screeningRepository.findByRoom(room);
         for (Screening screening : existingScreenings) {
@@ -78,10 +85,26 @@ public class ScreeningServiceImpl implements ScreeningService {
         return Result.success(null);
     }
 
+    /**
+     * Checks if a given start time overlaps with an existing screening.
+     *
+     * @param startTime     The start time to check.
+     * @param existingStart The start time of the existing screening.
+     * @param existingEnd   The end time of the existing screening.
+     * @return {@code true} if the start time overlaps with the existing screening, otherwise {@code false}.
+     */
     private boolean isOverlapping(LocalDateTime startTime, LocalDateTime existingStart, LocalDateTime existingEnd) {
         return !startTime.isBefore(existingStart) && startTime.isBefore(existingEnd);
     }
 
+    /**
+     * Checks if a given start time falls within the break period after an existing screening.
+     *
+     * @param startTime     The start time to check.
+     * @param existingEnd   The end time of the existing screening.
+     * @param breakEnd      The end of the break period.
+     * @return {@code true} if the start time falls within the break period, otherwise {@code false}.
+     */
     private boolean isInBreakPeriod(LocalDateTime startTime, LocalDateTime existingEnd, LocalDateTime breakEnd) {
         return !startTime.isBefore(existingEnd) && startTime.isBefore(breakEnd);
     }

@@ -16,6 +16,9 @@ import javax.persistence.FetchType;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Represents a movie with its details and associated pricing components.
+ */
 @Entity
 @Table(name = "movies")
 @Data
@@ -23,19 +26,35 @@ import java.util.Set;
 @NoArgsConstructor
 public class Movie {
 
+    /**
+     * The unique identifier for the movie.
+     */
     @Id
     @GeneratedValue
     private Long id;
 
+    /**
+     * The title of the movie. Must be unique.
+     */
     @Column(name = "title", unique = true)
     private String title;
 
+    /**
+     * The genre of the movie (e.g., Action, Comedy).
+     */
     @Column(name = "genre")
     private String genre;
 
+    /**
+     * The length of the movie in minutes.
+     */
     @Column(name = "length")
     private int length;
 
+    /**
+     * The set of pricing components associated with the movie.
+     * This is used to define the movie's pricing rules.
+     */
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "movie_pricing",
@@ -44,6 +63,13 @@ public class Movie {
     )
     private Set<Pricing> pricingComponents = new HashSet<>();
 
+    /**
+     * Constructor to create a Movie object with the specified details.
+     *
+     * @param title  The title of the movie.
+     * @param genre  The genre of the movie.
+     * @param length The length of the movie in minutes.
+     */
     public Movie(String title, String genre, int length) {
         this.title = title;
         this.genre = genre;
