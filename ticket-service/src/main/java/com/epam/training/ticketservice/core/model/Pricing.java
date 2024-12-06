@@ -4,7 +4,6 @@ import lombok.Data;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -23,7 +22,6 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(exclude = {"movies", "rooms", "screenings"})
-@ToString(exclude = {"movies", "rooms", "screenings"})
 public class Pricing {
 
     @Id
